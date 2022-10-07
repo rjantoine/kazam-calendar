@@ -19,7 +19,7 @@ const GenerateLink = React.forwardRef(({value, onChange, document}) => <>
 </>)
 
 export default {
-    title: 'Shared Calendar',
+    title: 'Shared Calendar Group',
     name: 'sharedCalendar',
     type: 'document',
     fields: [
@@ -29,6 +29,12 @@ export default {
             name: 'calendarLink',
             type: 'string',
             description: 'This will not be shared, you can put your private calendar link here.'
+        },
+        {
+            name: 'calendarLinks',
+            type: 'array',
+            of: [{type: 'string'}],
+            description: 'Include on, or many calendar links. These will not be shared, you can put your private calendar link here.'
         },
         {
             name: 'shareLinks',
