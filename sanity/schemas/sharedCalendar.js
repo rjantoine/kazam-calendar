@@ -26,11 +26,6 @@ export default {
         { name: 'title', type: 'string'},
         { name: 'slug', type: 'slug', description: 'This will be part of the new calendar web address, so keep it short, simple, but pertinent. Clicking [Generate] will give a url friendly version of the title.', options: {source: 'title'}},
         {
-            name: 'calendarLink',
-            type: 'string',
-            description: 'This will not be shared, you can put your private calendar link here.'
-        },
-        {
             name: 'calendarLinks',
             type: 'array',
             of: [{type: 'string'}],
