@@ -1,12 +1,21 @@
 import {v4 as uuidv4} from "uuid";
 import PatchEvent, {set} from 'part:@sanity/form-builder/patch-event'
-import React from 'react'
+import React, {useState} from 'react'
 import { withDocument } from "part:@sanity/form-builder"
 import {Button, TextInput} from "@sanity/ui";
+import {HiOutlineClipboardCheck, HiOutlineClipboard} from "react-icons/hi";
+
+const Paste = ({value}) => {
+    const [didPaste, setDidPaste] = useState(false)
+    const Icon = didPaste ? HiOutlineClipboardCheck : HiOutlineClipboard
+    return <Button onClick={() => {
+        navigator.clipboard.writeText(value).then(() => setDidPaste(true))
+    }}><Icon /></Button>
+}
 
 const GenerateLink = React.forwardRef(({value, onChange, document}) => <>
     {!value && <Button onClick={() => onChange(PatchEvent.from(set(uuidv4())))} style={{fontSize: '1.2em'}}>Generate Link</Button>}
-    { value && <TextInput disabled value={`https://kazam-calendar.vercel.com/api/cal/${document.slug.current}/${value}`} /> }
+    { value && <TextInput suffix={<Paste value={`https://kazam-calendar.vercel.app/api/cal/${document.slug.current}/${value}`} />} value={`https://kazam-calendar.vercel.app/api/cal/${document.slug.current}/${value}`} style={{paddingTop: 12, paddingBottom: 12}} /> }
 </>)
 
 export default {
