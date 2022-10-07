@@ -17,8 +17,8 @@ export default async function handler(req, res) {
     if(!sharedCalendar.codes.includes(code)) res.status(500).send({message: 'Access denied.'})
 
     const calRes = await fetch('https://www.airbnb.ca/calendar/ical/705521568481310146.ics?s=aba76924042068194c60c7168ac7d8b4')
-    res.status(200).send(calRes.body)
+    res.setHeader('Content-Type', 'text/calendar').status(200).send(calRes.body)
 
     // const calRes = await fetch('https://www.airbnb.ca/calendar/ical/705521568481310146.ics?s=aba76924042068194c60c7168ac7d8b4')
-    res.status(200).send()
+    // res.status(200).send()
 }
