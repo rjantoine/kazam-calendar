@@ -19,11 +19,21 @@ export default async function handler(req, res) {
     const iCals = await Promise.all(sharedCalendar.calendarLinks.map(async calendarLink => (await (await fetch(calendarLink)).text()).replaceAll('BEGIN:VCALENDAR', '').replaceAll('END:VCALENDAR', '')))
     res
         .setHeader('Content-Type', 'text/calendar; charset=utf-8')
-        .setHeader('Content-Disposition', `inline;filename=${calendar}.ics`)
+        .setHeader('Content-Disposition', `attachment;filename=${calendar}.ics`)
         .setHeader('cache-control', 'no-store, max-age=0, private, must-revalidate')
         .setHeader('x-content-type-options', 'nosniff')
         .setHeader('x-server-canonical-path','CalendarController#ical' )
-        .status(200).send(`BEGIN:VCALENDAR\nX-PUBLISHED-TTL:PT15M\nREFRESH-INTERVAL;VALUE=DURATION:PT15M\nX-WR-CALNAME:${sharedCalendar.title}\nNAME:${sharedCalendar.title}\n`+iCals.join('')+'\nEND:VCALENDAR')
+        .status(200).send(
+            'BEGIN:VCALENDAR\r\n'+
+            'X-PUBLISHED-TTL:PT15M\r\n'+
+            'REFRESH-INTERVAL;VALUE=DURATION:PT15M\r\n'+
+            `X-WR-CALNAME:${sharedCalendar.title}\r\n`+
+            `URL:webcal://kazam-calendar.vercel.app/api/cal/${calendar}/${code}`+
+            `SOURCE;VALUE=URI:webcal://kazam-calendar.vercel.app/api/cal/${calendar}/${code}`+
+            `NAME:${sharedCalendar.title}\r\n` +
+            iCals.join('')+'\r\n'+
+            'END:VCALENDAR'
+    )
 
 
     // const calRes = await fetch('https://www.airbnb.ca/calendar/ical/705521568481310146.ics?s=aba76924042068194c60c7168ac7d8b4')

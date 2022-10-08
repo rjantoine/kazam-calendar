@@ -15,7 +15,7 @@ const Paste = ({value}) => {
 
 const GenerateLink = React.forwardRef(({value, onChange, document}) => <>
     {!value && <Button onClick={() => onChange(PatchEvent.from(set(uuidv4())))} style={{fontSize: '1.2em'}}>Generate Link</Button>}
-    { value && <TextInput suffix={<Paste value={`https://kazam-calendar.vercel.app/api/cal/${document.slug.current}/${value}`} />} value={`https://kazam-calendar.vercel.app/api/cal/${document.slug.current}/${value}`} style={{paddingTop: 12, paddingBottom: 12}} /> }
+    { value && <TextInput suffix={<Paste value={`webcal://kazam-calendar.vercel.app/api/cal/${document.slug.current}/${value}`} />} value={`https://kazam-calendar.vercel.app/api/cal/${document.slug.current}/${value}`} style={{paddingTop: 12, paddingBottom: 12}} /> }
 </>)
 
 export default {
